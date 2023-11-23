@@ -1,86 +1,89 @@
 ﻿using Wema.BIT.Models;
 using static Wema.BIT.Models.AreaOfTraingle;
 
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 namespace Wema.BIT.User
 {
     public class User
     {
-        public static void Main(String[] args)
+        public static void Main(string[] args)
         {
-            Triangle myTriangle = new Triangle();
-
-            // Input base and height values
-            Console.WriteLine("Enter the base of the triangle:");
-            myTriangle.Base = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Enter the height of the triangle:");
-            myTriangle.Height = Convert.ToDouble(Console.ReadLine());
-
-            // Calculate and display the area
-            double area = myTriangle.CalculateArea();
-            Console.WriteLine($"The area of the triangle is: {area}");
-
-            List<UsersList> usersLists = new List<UsersList>()
+            List<Payment> payment = new List<Payment>()
             {
-                new UsersList() {Id = 1, Email="faisal007@gmail.com", First_Name="Faisal",Last_Name="Ozigis"},
-                new UsersList() {Id = 2, Email="Tolu001@gmial.com", First_Name="Tolu",Last_Name="Akintayo"},
-                new UsersList() {Id = 3, Email="Emmaunelk@gmail.com", First_Name="Emmanuel",Last_Name="Kayode"},
-                new UsersList() {Id = 4, Email="Timmy1323@gmail.com", First_Name="Timmy",Last_Name="Egbe"},
-                new UsersList() {Id = 5, Email="Uche1323@gmail.com", First_Name="Uchennna",Last_Name="Morris"}
+                new Payment() {Id =1,UserId=1, Amount=1233},
+                new Payment() {Id =2,UserId=2, Amount=1233},
+                new Payment() {Id =3,UserId=3, Amount=1233},
+                new Payment() {Id =4,UserId=4, Amount=1233},
+                new Payment() {Id =5,UserId=5, Amount=1233}
             };
 
-            List<Payment> payments = new List<Payment>()
-            {
-               new Payment() {UserID = 1, PaymentId= 1, Payment_amount=126725},
-               new Payment() {UserID = 2, PaymentId= 1, Payment_amount=10325},
-               new Payment() {UserID = 3, PaymentId= 1, Payment_amount=78325}
+            
 
+            List <Users> users = new List<Users>()
+            {
+                new Users() {Id =1, FirstName="Aluh", LastName="Johnson", Email="johnson@email.com", Payments=null},
+
+                new Users() {Id =2, FirstName="Jim", LastName="Johnson", Email="johnson@email.com", Payments=payment.Where(x => x.UserId == 2).ToList()},
+
+                new Users() {Id =3, FirstName="Mike", LastName="Johnson", Email="johnson@email.com", Payments=payment.Where(x => x.UserId == 3).ToList()},
+
+                new Users() {Id =4, FirstName="Jide", LastName="Johnson", Email="johnson@email.com", Payments=payment.Where(x => x.UserId == 4).ToList()},
+
+                new Users() {Id =5, FirstName="Tomi", LastName="Johnson", Email="johnson@email.com", Payments=payment.Where(x => x.UserId == 5).ToList()},
+                
             };
-            for (int i = 0; i < usersLists.Count; i++)
+
+            var userPaymnets = users.Where(x => x.Id == 1);
+            var u = new List<User>();
+
+            
+
+            var json = JsonConvert.SerializeObject(userPaymnets, Formatting.Indented);
+
+            foreach (var user in userPaymnets)
             {
-                Console.WriteLine("User Details:");
-                Console.WriteLine("Id: " + usersLists[i].Id + ", First Name: " + usersLists[i].First_Name + ", Last Name: " + usersLists[i].Last_Name + ", Email: " + usersLists[i].Email);
-
-                Console.WriteLine("Payments for User " + usersLists[i].Id + ":");
-                foreach (var payment in payments)
-                {
-                    if (payment.UserID == usersLists[i].Id)
-                    {
-                        Console.WriteLine("PaymentId: " + payment.PaymentId + ", Payment Amount: " + payment.Payment_amount);
-                    }
-                }
-                Console.WriteLine();
-
+                if(user.FirstName=="Tomi" || user.LastName == "Johnson")Console.WriteLine("First Name : " + user.FirstName +" Last Name : " + user.LastName);
+                
             }
 
-            //Console.write("Enter a number: ");
-            //   int num1 = Convert.ToInt32(Console.ReadLine());
-
-            //  Console.write("Enter another number: ");
-            //  int num2 = Convert.ToInt32(Console.ReadLine());
-
-            // Console.writeLine(num1 + num2);
-
-            //  Console.Readline();
 
 
         }
     }
+
+    public class Users
+    {
+
+        public int Id { set; get; } 
+        public string FirstName { set; get; }
+        public string LastName { set; get; }
+        public string Email { set; get; }
+        public List<Payment> Payments { set; get; }
+    }
+
+    public class Payment
+    {
+
+        public int Id { set; get; }
+        public int UserId { set; get; }
+        public decimal Amount { set; get; }
+        public User User { set; get; }
+    }
+    public class Account
+    {
+
+        public int Id { set; get; }
+        public int AccountNumber { set; get; }
+        public decimal BVN { set; get; }
+        public decimal AccountName { set; get; }
+        public User  phoneNumber{ set; get; }
+    }
 }
-    //public class Payment
-    //{
-       // public static void Greet()
-       //{
-         //   Console.WriteLine("Good Afternoon");
-        //}
 
-       // public string GreetMe()
-      //{
-       //    Console.WriteLine("Good Afternoon");
 
-        //   return "Good Afternoon";
-      //  }
-   //}
-//}
+
+
 
 
